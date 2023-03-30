@@ -1,6 +1,6 @@
-'use strict'
+"use strict";
 
-const cursos = require('./cursos.js')
+const cursos = require("./cursos.js");
 
 const getListaCursos = function() {
     return cursos.cursos;
