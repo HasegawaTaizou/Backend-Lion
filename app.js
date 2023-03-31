@@ -22,9 +22,12 @@ app.get(
   async function (request, response, next) {
     const cursos = require("./modulo/get-lista-cursos.js");
 
+    let listaCursosJSON = {}
+
     let listaCursos = cursos.getListaCursos();
     if (listaCursos) {
-      response.json(listaCursos);
+      listaCursosJSON.cursos = listaCursos
+      response.json(listaCursosJSON);
       response.status(200);
     } else {
       response.status(500);
@@ -50,7 +53,7 @@ app.get(
     } else {
       aluno = alunos.getAluno(numeroMatricula);
       if (aluno) {
-        dadosAluno = aluno;
+        dadosAluno.disciplinas = aluno;
         statusCode = 200;
       } else {
         statusCode = 404;
