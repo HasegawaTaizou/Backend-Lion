@@ -3,18 +3,19 @@
 const alunos = require("./alunos.js");
 
 const getListaAlunosMatriculadosCurso = function (cursoEspecifico) {
-  alunos.alunos.filter((aluno) => {
-    let cursosFiltrados = aluno.curso.filter((curso) => {
-      if (curso.sigla == cursoEspecifico) {
-        console.log(cursoEspecifico);
-
-        return curso.sigla == cursoEspecifico;
+  let alunosLista = [];
+  alunos.alunos.forEach((aluno) => {
+    aluno.curso.forEach((item) => {
+      if (item.sigla == cursoEspecifico && item != []) {
+        alunosLista.push(aluno);
       }
     });
-    console.log(cursosFiltrados);
-
-    return cursosFiltrados;
   });
+  return alunosLista;
 };
 
-getListaAlunosMatriculadosCurso("RDS");
+console.log(getListaAlunosMatriculadosCurso("DS"));
+
+module.exports = {
+  getListaAlunosMatriculadosCurso,
+};

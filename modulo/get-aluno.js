@@ -15,19 +15,27 @@ const getAluno = function (matricula) {
     return aluno.matricula == matricula;
   });
 
-  let disciplinas = []
+  return alunoFiltrado;
+};
+
+const getDisciplinasAluno = function (matricula) {
+  let alunoFiltrado = alunos.alunos.filter((aluno) => {
+    return aluno.matricula == matricula;
+  });
+
+  let disciplinas = [];
   alunoFiltrado.forEach((aluno) => {
     aluno.curso.forEach((dadosCurso) => {
-      disciplinas.push(dadosCurso.disciplinas)
+      disciplinas.push(dadosCurso.disciplinas);
     });
   });
-  
-  return disciplinas
-  
+
+  return disciplinas;
 };
 
 console.log(getAluno(20151001001));
 
 module.exports = {
   getAluno,
+  getDisciplinasAluno,
 };

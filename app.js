@@ -22,16 +22,45 @@ app.get(
   async function (request, response, next) {
     const cursos = require("./modulo/get-lista-cursos.js");
 
-    let listaCursosJSON = {}
+    let listaCursosJSON = {};
 
     let listaCursos = cursos.getListaCursos();
     if (listaCursos) {
-      listaCursosJSON.cursos = listaCursos
+      listaCursosJSON.cursos = listaCursos;
       response.json(listaCursosJSON);
       response.status(200);
     } else {
       response.status(500);
     }
+  }
+);
+
+app.get(
+  "/v1/lion-school/cursos/:curso",
+  cors(),
+  async function (request, response, next) {
+    const alunos = require("./modulo/get-lista-alunos-matriculados-curso.js");
+
+    let siglaCurso = request.params.curso;
+    let statusCode;
+    let dadosAluno = {};
+    let aluno;
+
+    if (siglaCurso == undefined) {
+      statusCode = 400;
+      dadosAluno.message =
+        "Não é possível processar a requisição, pois a sigla do estado não foi informada, ou não antende a quantidade de caracteres (2 dígitos)";
+    } else {
+      aluno = alunos.getListaAlunosMatriculadosCurso(siglaCurso);
+      if (aluno) {
+        dadosAluno.alunos = aluno;
+        statusCode = 200;
+      } else {
+        statusCode = 404;
+      }
+    }
+    response.status(statusCode);
+    response.json(dadosAluno);
   }
 );
 
@@ -52,6 +81,35 @@ app.get(
         "Não é possível processar a requisição, pois a sigla do estado não foi informada, ou não antende a quantidade de caracteres (2 dígitos)";
     } else {
       aluno = alunos.getAluno(numeroMatricula);
+      if (aluno) {
+        dadosAluno.aluno = aluno;
+        statusCode = 200;
+      } else {
+        statusCode = 404;
+      }
+    }
+    response.status(statusCode);
+    response.json(dadosAluno);
+  }
+);
+
+app.get(
+  "/v1/lion-school/alunos-disciplinas/:matricula",
+  cors(),
+  async function (request, response, next) {
+    const alunos = require("./modulo/get-aluno.js");
+
+    let numeroMatricula = request.params.matricula;
+    let statusCode;
+    let dadosAluno = {};
+    let aluno;
+
+    if (numeroMatricula == undefined) {
+      statusCode = 400;
+      dadosAluno.message =
+        "Não é possível processar a requisição, pois a sigla do estado não foi informada, ou não antende a quantidade de caracteres (2 dígitos)";
+    } else {
+      aluno = alunos.getDisciplinasAluno(numeroMatricula);
       if (aluno) {
         dadosAluno.disciplinas = aluno;
         statusCode = 200;
