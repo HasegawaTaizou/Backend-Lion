@@ -65,10 +65,14 @@ app.get(
     let dadosAluno = {};
     let aluno;
 
-    if (numeroMatricula == undefined) {
+    if (
+      numeroMatricula == undefined ||
+      numeroMatricula == "" ||
+      isNaN(numeroMatricula)
+    ) {
       statusCode = 400;
       dadosAluno.message =
-        "Não é possível processar a requisição, pois a sigla do estado não foi informada, ou não antende a quantidade de caracteres (2 dígitos)";
+        "Numero da matrícula vazio ou não é um número. Preencha o número da matrícula da forma correta";
     } else {
       aluno = alunos.getAluno(numeroMatricula);
       if (aluno) {
@@ -97,21 +101,20 @@ app.get("/v1/senai/alunos", cors(), async function (request, response, next) {
   let statusCode;
 
   if (siglaCurso != undefined) {
-    if (siglaCurso == "" || siglaCurso == undefined || !isNaN(siglaCurso)) {
+    if (siglaCurso == undefined || siglaCurso == "" || !isNaN(siglaCurso)) {
       statusCode = 400;
       dadosAluno.message =
-        "Não é possível processar a requisição, pois a sigla do curso não foi informada ou não é válida.";
+        "Sigla do curso inválida ou vazia. Preencha corretamente";
     } else {
       if (anoConclusao != undefined && statusAluno == undefined) {
-        console.log("apenas ano");
         if (
-          anoConclusao == "" ||
           anoConclusao == undefined ||
+          anoConclusao == "" ||
           isNaN(anoConclusao)
         ) {
           statusCode = 400;
           dadosAluno.message =
-            "Não é possível processar a requisição, pois a sigla do curso não foi informada ou não é válida.";
+            "Ano de conclusão inválido ou vazio. Preencha corretamente";
         } else {
           let alunos = alunosAno.getListaAlunosAno(siglaCurso, anoConclusao);
           if (alunos) {
@@ -120,15 +123,20 @@ app.get("/v1/senai/alunos", cors(), async function (request, response, next) {
           } else {
             statusCode = 404;
           }
+
+          response.status(statusCode);
+          response.json(dadosAluno);
         }
-        response.status(statusCode);
-        response.json(dadosAluno);
       }
       if (anoConclusao == undefined && statusAluno != undefined) {
-        console.log("apenas status");
-        if (statusAluno == "") {
+        if (
+          statusAluno == undefined ||
+          statusAluno == "" ||
+          !isNaN(statusAluno)
+        ) {
           statusCode = 400;
-          dadosAluno.message = "Mensagem de erro do apenas status";
+          dadosAluno.message =
+            "Status inválido ou vazio. Preencha corretamente";
         } else {
           let alunos = alunosStatus.getListaAlunosStatus(
             siglaCurso,
@@ -140,17 +148,23 @@ app.get("/v1/senai/alunos", cors(), async function (request, response, next) {
           } else {
             statusCode = 404;
           }
-        }
 
-        response.status(statusCode);
-        response.json(dadosAluno);
+          response.status(statusCode);
+          response.json(dadosAluno);
+        }
       }
       if (anoConclusao != undefined && statusAluno != undefined) {
-        console.log("todos");
-        if (anoConclusao == "" || statusAluno == "") {
+        if (
+          anoConclusao == undefined ||
+          anoConclusao == "" ||
+          isNaN(anoConclusao) ||
+          statusAluno == undefined ||
+          statusAluno == "" ||
+          !isNaN(statusAluno)
+        ) {
           statusCode = 400;
           dadosAluno.message =
-            "Não é possível processar a requisição, pois a sigla do curso não foi informada ou não é válida.";
+            "Status e/ou ano de conclusão inválido ou vazio. Preencha corretamente";
         } else {
           let alunos = alunosStatusAno.getListaAlunosStatusAno(
             siglaCurso,
@@ -163,10 +177,10 @@ app.get("/v1/senai/alunos", cors(), async function (request, response, next) {
           } else {
             statusCode = 404;
           }
-        }
 
-        response.status(statusCode);
-        response.json(dadosAluno);
+          response.status(statusCode);
+          response.json(dadosAluno);
+        }
       } else {
         let alunos =
           alunosMatriculados.getListaAlunosMatriculadosCurso(siglaCurso);
@@ -181,6 +195,9 @@ app.get("/v1/senai/alunos", cors(), async function (request, response, next) {
         response.json(dadosAluno);
       }
     }
+
+    response.status(statusCode);
+    response.json(dadosAluno);
   }
 });
 
@@ -195,10 +212,15 @@ app.get(
     let dadosAluno = {};
     let aluno;
 
-    if (numeroMatricula == undefined) {
+    console.log(numeroMatricula);
+    if (
+      numeroMatricula == undefined ||
+      numeroMatricula == "" ||
+      isNaN(numeroMatricula)
+    ) {
       statusCode = 400;
       dadosAluno.message =
-        "Não é possível processar a requisição, pois a sigla do estado não foi informada, ou não antende a quantidade de caracteres (2 dígitos)";
+        "Numero da matrícula vazio ou não é um número. Preencha o número da matrícula da forma correta";
     } else {
       aluno = alunos.getDisciplinasAluno(numeroMatricula);
       if (aluno) {

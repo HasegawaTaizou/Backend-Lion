@@ -11,21 +11,18 @@ const getAluno = function (matricula) {
 };
 
 const getDisciplinasAluno = function (matricula) {
-  let alunoFiltrado = alunos.alunos.filter((aluno) => {
-    return aluno.matricula == matricula;
-  });
-
   let disciplinas = [];
-  alunoFiltrado.forEach((aluno) => {
-    aluno.curso.forEach((dadosCurso) => {
-      disciplinas.push(dadosCurso.disciplinas);
-    });
+
+  alunos.alunos.forEach((aluno) => {
+    if (aluno.matricula == matricula) {
+      aluno.curso.forEach((dadosCurso) => {
+        disciplinas.push(dadosCurso.disciplinas);
+      });
+    }
   });
 
-  return disciplinas;
+  return disciplinas[0];
 };
-
-// console.log(getAluno(20151001001));
 
 module.exports = {
   getAluno,
