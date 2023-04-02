@@ -1,13 +1,13 @@
-'use strict'
+"use strict";
 
-const alunos = require('./alunos.js')
+const alunos = require("./alunos.js");
 
-const getListaAlunos = function() {
-    return alunos.alunos
-}
+const getListaAlunos = function () {
+  return alunos.alunos;
+};
 
-console.log(getListaAlunos());
+// console.log(getListaAlunos());
 
 module.exports = {
-    getListaAlunos,
-}
+  getListaAlunos,
+};

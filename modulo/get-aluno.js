@@ -2,14 +2,6 @@
 
 const alunos = require("./alunos.js");
 
-// const getAluno = function (matricula) {
-//   let alunoFiltrado = alunos.alunos.filter((aluno) => {
-//     return aluno.matricula == matricula;
-//   });
-
-//   return alunoFiltrado;
-// };
-
 const getAluno = function (matricula) {
   let alunoFiltrado = alunos.alunos.filter((aluno) => {
     return aluno.matricula == matricula;
@@ -33,7 +25,7 @@ const getDisciplinasAluno = function (matricula) {
   return disciplinas;
 };
 
-console.log(getAluno(20151001001));
+// console.log(getAluno(20151001001));
 
 module.exports = {
   getAluno,

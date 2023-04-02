@@ -14,7 +14,7 @@ const getListaAlunosMatriculadosCurso = function (cursoEspecifico) {
   return alunosLista;
 };
 
-console.log(getListaAlunosMatriculadosCurso("DS"));
+// console.log(getListaAlunosMatriculadosCurso("RDS"));
 
 module.exports = {
   getListaAlunosMatriculadosCurso,
