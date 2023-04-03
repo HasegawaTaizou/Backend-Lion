@@ -101,17 +101,13 @@ app.get("/v1/senai/alunos", cors(), async function (request, response, next) {
   let statusCode;
 
   if (siglaCurso != undefined) {
-    if (siglaCurso == undefined || siglaCurso == "" || !isNaN(siglaCurso)) {
+    if (siglaCurso == undefined) {
       statusCode = 400;
       dadosAluno.message =
         "Sigla do curso inválida ou vazia. Preencha corretamente";
     } else {
       if (anoConclusao != undefined && statusAluno == undefined) {
-        if (
-          anoConclusao == undefined ||
-          anoConclusao == "" ||
-          isNaN(anoConclusao)
-        ) {
+        if (anoConclusao == undefined) {
           statusCode = 400;
           dadosAluno.message =
             "Ano de conclusão inválido ou vazio. Preencha corretamente";
@@ -123,17 +119,13 @@ app.get("/v1/senai/alunos", cors(), async function (request, response, next) {
           } else {
             statusCode = 404;
           }
-
-          response.status(statusCode);
-          response.json(dadosAluno);
         }
+
+        response.status(statusCode);
+        response.json(dadosAluno);
       }
       if (anoConclusao == undefined && statusAluno != undefined) {
-        if (
-          statusAluno == undefined ||
-          statusAluno == "" ||
-          !isNaN(statusAluno)
-        ) {
+        if (statusAluno == undefined) {
           statusCode = 400;
           dadosAluno.message =
             "Status inválido ou vazio. Preencha corretamente";
@@ -148,20 +140,13 @@ app.get("/v1/senai/alunos", cors(), async function (request, response, next) {
           } else {
             statusCode = 404;
           }
-
-          response.status(statusCode);
-          response.json(dadosAluno);
         }
+
+        response.status(statusCode);
+        response.json(dadosAluno);
       }
       if (anoConclusao != undefined && statusAluno != undefined) {
-        if (
-          anoConclusao == undefined ||
-          anoConclusao == "" ||
-          isNaN(anoConclusao) ||
-          statusAluno == undefined ||
-          statusAluno == "" ||
-          !isNaN(statusAluno)
-        ) {
+        if (statusAluno == undefined) {
           statusCode = 400;
           dadosAluno.message =
             "Status e/ou ano de conclusão inválido ou vazio. Preencha corretamente";
@@ -177,13 +162,14 @@ app.get("/v1/senai/alunos", cors(), async function (request, response, next) {
           } else {
             statusCode = 404;
           }
-
-          response.status(statusCode);
-          response.json(dadosAluno);
         }
-      } else {
-        let alunos =
-          alunosMatriculados.getListaAlunosMatriculadosCurso(siglaCurso);
+
+        response.status(statusCode);
+        response.json(dadosAluno);
+      } if(anoConclusao == undefined && statusAluno == undefined) {
+        let alunos = alunosMatriculados.getListaAlunosMatriculadosCurso(
+          siglaCurso
+        );
         if (alunos) {
           statusCode = 200;
           dadosAluno.alunos = alunos;
@@ -195,9 +181,6 @@ app.get("/v1/senai/alunos", cors(), async function (request, response, next) {
         response.json(dadosAluno);
       }
     }
-
-    response.status(statusCode);
-    response.json(dadosAluno);
   }
 });
 
