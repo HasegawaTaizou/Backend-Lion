@@ -85,13 +85,18 @@ app.get(
     let statusCode;
 
     if (siglaCurso != undefined) {
-      if (siglaCurso == undefined) {
+      if (siglaCurso == undefined || siglaCurso == "" || !isNaN(siglaCurso)) {
         statusCode = 400;
         dadosAluno.message =
           "Sigla do curso inválida ou vazia. Preencha corretamente";
+        console.log("entrou validacao");
       } else {
         if (anoConclusao != undefined && statusAluno == undefined) {
-          if (anoConclusao == undefined) {
+          if (
+            anoConclusao == undefined ||
+            anoConclusao == "" ||
+            isNaN(anoConclusao)
+          ) {
             statusCode = 400;
             dadosAluno.message =
               "Ano de conclusão inválido ou vazio. Preencha corretamente";
@@ -109,7 +114,11 @@ app.get(
           response.json(dadosAluno);
         }
         if (anoConclusao == undefined && statusAluno != undefined) {
-          if (statusAluno == undefined) {
+          if (
+            statusAluno == undefined ||
+            statusAluno == "" ||
+            !isNaN(statusAluno)
+          ) {
             statusCode = 400;
             dadosAluno.message =
               "Status inválido ou vazio. Preencha corretamente";
@@ -130,7 +139,14 @@ app.get(
           response.json(dadosAluno);
         }
         if (anoConclusao != undefined && statusAluno != undefined) {
-          if (statusAluno == undefined) {
+          if (
+            anoConclusao == undefined ||
+            anoConclusao == "" ||
+            isNaN(anoConclusao) ||
+            statusAluno == undefined ||
+            statusAluno == "" ||
+            !isNaN(statusAluno)
+          ) {
             statusCode = 400;
             dadosAluno.message =
               "Status e/ou ano de conclusão inválido ou vazio. Preencha corretamente";
@@ -152,9 +168,8 @@ app.get(
           response.json(dadosAluno);
         }
         if (anoConclusao == undefined && statusAluno == undefined) {
-          let alunos = alunosMatriculados.getListaAlunosMatriculadosCurso(
-            siglaCurso
-          );
+          let alunos =
+            alunosMatriculados.getListaAlunosMatriculadosCurso(siglaCurso);
           if (alunos) {
             statusCode = 200;
             dadosAluno.alunos = alunos;
@@ -166,6 +181,9 @@ app.get(
           response.json(dadosAluno);
         }
       }
+
+      // response.status(statusCode);
+      // response.json(dadosAluno);
     } else {
       const alunos = require("./modulo/get-lista-alunos.js");
 
